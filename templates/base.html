@@ -10,7 +10,7 @@
   <title>{{title}}</title>
   <!-- Bootstrap core CSS -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 </head>
 
@@ -21,13 +21,13 @@
 
   <div class="header" style="
   background: rgb(177, 177, 177) url('../static/img/header.png') no-repeat fixed center
-  {% if "" in request.path %}
+  {% if "appointment" in request.path %}
   max-height:300px!important;min-height:300px!important;
   {% endif %}
   ">
     
     <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-        <div class="container"><a class="navbar-brand" href="{% url 'home' %}">Family Doctor X</a>
+        <div class="container"><a class="navbar-brand" href="{% url 'home' %}">BARBER SHOP</a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -50,11 +50,11 @@
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item" role="presentation">
-                      <a class="nav-link active" href="">Manage</a>
+                      <a class="nav-link active" href="{% url 'manage' %}">Manage</a>
                   </li>
                   {% endif %}
                   <li class="nav-item" role="presentation">
-                    <a href="" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
+                    <a href="{% url 'manage' %}" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
                       <i class="far fa-bell" style="font-size: 20px; float: left; color: black">
                       </i>
                   </a>

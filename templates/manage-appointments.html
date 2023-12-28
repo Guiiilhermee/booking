@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Family Doctor: Manage Appointment</title>
-  <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
+{% block style %}
 
-<style>
   .card-margin {
       margin-bottom: 1.875rem;
   }
@@ -347,10 +336,19 @@
       outline: 0;
       box-shadow: none
   }
-</style>
+{% endblock style %}
 
-<body>
+{% block content %}
 
+{% if messages %}
+    <div class="card notification-card notification-invitation">
+        <div class="card-body">
+        {% for message in messages %}
+                <div class="card-title">{{message}} </div>
+            {% endfor %}
+        </div>
+      </div> 
+    {% endif %}
 
     <div class="container mt-5">
         <div class="col-11 text-center mt-4 mb-4">
@@ -359,125 +357,66 @@
             </h3>
         </div>
         <div class="row">
+
+        {% for app in appointments %}
             <div class="col-lg-4">
                 <div class="card card-margin">
                     <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
+                        <h5 class="card-title">{{app.first_name}} {{app.last_name}}</h5>
                     </div>
                     <div class="card-body pt-0">
                         <div class="widget-49">
                             <div class="widget-49-title-wrapper">
                                 <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
+                                    <span class="widget-49-date-day">{{app.sent_date|date:"d"}}</span>
+                                    <span class="widget-49-date-month">{{app.sent_date|date:"M"}}</span>
                                 </div>
                                 <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
+                                    <span class="widget-49-pro-title">{{app.email}}</span>
+                                    <span class="widget-49-meeting-time">{{app.phone}}</span>
                                 </div>
                             </div>
                             <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
+                                <span>{{app.request}}</span>
                             </div>
                             <hr class="w-100">
+                            {% if app.accepted == False %}
+                            <form method="POST" action="{% url 'manage' %}">
+                            {% csrf_token %}
                             <div class="form-group">
                                 <input type="date" name="date" class="form-control mb-2" 
                                     placeholder="dd-mm-yyyy" value=""
                                     min="1997-01-01" max="2030-12-31">
+                                    <input hidden="true" name="appointment-id" value="{{app.id}}">
                                 <input class="btn-block btn-primary form-control" type="submit" value="Accept">
                             </div>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
-                                </div>
-                            </div>
-                            <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
-                            </div>
-                            <hr class="w-100">
-                            <div class="form-group">
-                                <input type="date" name="date" class="form-control mb-2" 
-                                    placeholder="dd-mm-yyyy" value=""
-                                    min="1997-01-01" max="2030-12-31">
-                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Name Surname</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">09</span>
-                                    <span class="widget-49-date-month">apr</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <span class="widget-49-pro-title">email@email.com</span>
-                                    <span class="widget-49-meeting-time">+1 0356 5656 5 656</span>
-                                </div>
-                            </div>
-                            <div class="widget-49-meeting-points">
-                                <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam eum magnam veniam nisi laudantium ea. Esse odio corporis adipisci ex.</span>
-                            </div>
-                            <hr class="w-100">
-                            <div class="form-group">
-                                <input type="date" name="date" class="form-control mb-2" 
-                                    placeholder="dd-mm-yyyy" value=""
-                                    min="1997-01-01" max="2030-12-31">
-                                <input class="btn-block btn-primary form-control" type="submit" value="Accept">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {% endfor %}
+
         </div>
 
+        {% if is_paginated %}
         <div class="wrapper">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">6</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{page_obj.prebious_page_number}}">Previous</a></li>
+                    {% endif %}
+                    {% for number in page_obj.paginator.page_range %}
+                    <li class="page-item"><a class="page-link" href="?page={{number}}">{{number}}</a></li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{page_obj.prebious_page_number}}">Next</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
 
+        {% endif %}
 
-  <!--  JQuery  -->
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <!--  Bootstrap tooltips  -->
-  <script type="text/javascript" src="js/popper.min.js"></script>
-  <!--  Bootstrap core JavaScript  -->
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-
-</body>
-
-</html>
+{% endblock content %}
